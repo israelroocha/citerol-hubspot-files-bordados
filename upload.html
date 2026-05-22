@@ -216,9 +216,16 @@
         expectedName: expectedName,
       };
 
-      // Tenta enviar pro card HubSpot via postMessage
-      try { window.parent.postMessage(message, '*'); } catch (e) {}
-      try { window.top.postMessage(message, '*');    } catch (e) {}
+      // Tenta todas as formas possíveis de alcançar o worker do HubSpot
+      const targets = [];
+      try { targets.push(window.parent); } catch(e) {}
+      try { targets.push(window.top); } catch(e) {}
+      try { if (window.opener) targets.push(window.opener); } catch(e) {}
+
+      targets.forEach(t => {
+        try { t.postMessage(message, '*'); } catch(e) {}
+        try { t.postMessage(JSON.stringify(message), '*'); } catch(e) {}
+      });
 
       document.getElementById('upload-card').style.display  = 'none';
       document.getElementById('success-card').style.display = 'block';
