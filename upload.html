@@ -3,176 +3,95 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Upload de Arquivo — Bordado Citerol</title>
+  <title>Upload de Bordado — Citerol</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: #f5f8fa;
-      color: #33475b;
-      padding: 24px;
-      min-height: 100vh;
-    }
-    .card {
-      background: white;
-      border-radius: 8px;
-      padding: 24px;
-      box-shadow: 0 1px 6px rgba(0,0,0,0.1);
-      max-width: 480px;
-      margin: 0 auto;
-    }
-    h2 {
-      font-size: 17px;
-      font-weight: 600;
-      margin-bottom: 4px;
-      color: #1a1a2e;
-    }
-    .subtitle {
-      font-size: 13px;
-      color: #7c98b6;
-      margin-bottom: 18px;
-    }
-    .filename-label {
-      font-size: 12px;
-      color: #516f90;
-      margin-bottom: 6px;
-    }
-    .filename-box {
-      background: #eef3fb;
-      border: 1px solid #c4d3e8;
-      border-radius: 6px;
-      padding: 10px 14px;
-      font-size: 13px;
-      font-weight: 600;
-      color: #0044cc;
-      margin-bottom: 20px;
-      word-break: break-all;
-    }
-    .drop-zone {
-      border: 2px dashed #cbd6e2;
-      border-radius: 8px;
-      padding: 28px 16px;
-      text-align: center;
-      cursor: pointer;
-      transition: border-color 0.2s, background 0.2s;
-      margin-bottom: 14px;
-      position: relative;
-    }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f8fa; color: #33475b; padding: 20px; }
+    .card { background: white; border-radius: 8px; padding: 22px; box-shadow: 0 1px 6px rgba(0,0,0,0.1); max-width: 480px; margin: 0 auto; }
+    h2 { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+    .sub { font-size: 12px; color: #7c98b6; margin-bottom: 14px; }
+    .label { font-size: 12px; color: #516f90; margin-bottom: 5px; }
+    .filename-box { background: #eef3fb; border: 1px solid #c4d3e8; border-radius: 6px; padding: 9px 13px; font-size: 13px; font-weight: 600; color: #0044cc; margin-bottom: 16px; word-break: break-all; }
+    .drop-zone { border: 2px dashed #cbd6e2; border-radius: 8px; padding: 24px 16px; text-align: center; cursor: pointer; transition: border-color 0.2s, background 0.2s; margin-bottom: 12px; position: relative; }
     .drop-zone:hover { border-color: #0070cd; background: #f0f7ff; }
-    .drop-zone input {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      opacity: 0;
-      cursor: pointer;
-    }
-    .drop-zone .icon { font-size: 32px; margin-bottom: 8px; }
-    .drop-zone p { font-size: 14px; color: #516f90; pointer-events: none; }
-    .drop-zone small { font-size: 12px; color: #99acc2; pointer-events: none; }
-    .file-info {
-      display: none;
-      align-items: center;
-      gap: 8px;
-      background: #e6f4ea;
-      border: 1px solid #b2dfbc;
-      border-radius: 6px;
-      padding: 10px 14px;
-      margin-bottom: 14px;
-      font-size: 13px;
-      color: #2e7d32;
-    }
-    .error-box {
-      display: none;
-      background: #fce8e8;
-      border: 1px solid #f5c2c2;
-      border-radius: 6px;
-      padding: 10px 14px;
-      margin-bottom: 14px;
-      font-size: 13px;
-      color: #c0392b;
-    }
-    .btn {
-      display: block;
-      width: 100%;
-      background: #ff7a59;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      padding: 13px;
-      font-size: 15px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
+    .drop-zone input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+    .drop-zone .icon { font-size: 28px; margin-bottom: 6px; }
+    .drop-zone p { font-size: 13px; color: #516f90; pointer-events: none; }
+    .drop-zone small { font-size: 11px; color: #99acc2; pointer-events: none; }
+    .file-info { display: none; align-items: center; gap: 8px; background: #e6f4ea; border: 1px solid #b2dfbc; border-radius: 6px; padding: 9px 13px; margin-bottom: 12px; font-size: 13px; color: #2e7d32; }
+    .error-box { display: none; background: #fce8e8; border: 1px solid #f5c2c2; border-radius: 6px; padding: 9px 13px; margin-bottom: 12px; font-size: 13px; color: #c0392b; }
+    .btn { display: block; width: 100%; background: #ff7a59; color: white; border: none; border-radius: 6px; padding: 12px; font-size: 14px; font-weight: 600; cursor: pointer; transition: background 0.2s; }
     .btn:hover:not(:disabled) { background: #e8674a; }
     .btn:disabled { background: #cbd6e2; cursor: not-allowed; }
-    .success-card {
-      display: none;
-      text-align: center;
-      padding: 32px 24px;
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 1px 6px rgba(0,0,0,0.1);
-      max-width: 480px;
-      margin: 0 auto;
-    }
-    .success-card .big-icon { font-size: 52px; margin-bottom: 16px; }
-    .success-card h2 { font-size: 18px; color: #2e7d32; margin-bottom: 8px; }
-    .success-card p { font-size: 14px; color: #516f90; }
+    .progress { display: none; margin-bottom: 12px; }
+    .progress-bar { background: #e5eaf0; border-radius: 99px; height: 8px; overflow: hidden; }
+    .progress-fill { background: #0070cd; height: 100%; width: 0%; transition: width 0.3s; border-radius: 99px; }
+    .progress-text { font-size: 12px; color: #516f90; margin-top: 5px; text-align: center; }
+    .success-card { display: none; text-align: center; padding: 28px 22px; background: white; border-radius: 8px; box-shadow: 0 1px 6px rgba(0,0,0,0.1); max-width: 480px; margin: 0 auto; }
+    .success-card .big-icon { font-size: 48px; margin-bottom: 12px; }
+    .success-card h2 { font-size: 17px; color: #2e7d32; margin-bottom: 6px; }
+    .success-card p { font-size: 13px; color: #516f90; }
+    .close-btn { margin-top: 16px; display: inline-block; background: #f5f8fa; border: 1px solid #cbd6e2; border-radius: 6px; padding: 8px 20px; font-size: 13px; cursor: pointer; color: #33475b; }
+    .close-btn:hover { background: #e5eaf0; }
   </style>
 </head>
 <body>
 
   <div class="card" id="upload-card">
     <h2>📎 Upload de Arquivo de Bordado</h2>
-    <p class="subtitle">Selecione o arquivo de arte para este bordado.</p>
+    <p class="sub">Selecione o arquivo de arte para este bordado.</p>
 
-    <p class="filename-label">O arquivo será salvo com o nome:</p>
+    <p class="label">O arquivo será salvo com o nome:</p>
     <div class="filename-box" id="filename-display">—</div>
 
-    <div class="drop-zone" id="drop-zone">
-      <input type="file" id="fileInput"
-        accept=".pdf,.ai,.eps,.png,.jpg,.jpeg,.svg,.cdr,.zip,.psd,.tiff,.tif">
+    <label class="drop-zone" for="fileInput">
+      <input type="file" id="fileInput" accept=".pdf,.ai,.eps,.png,.jpg,.jpeg,.svg,.cdr,.zip,.psd,.tiff,.tif">
       <div class="icon">📂</div>
       <p>Clique para selecionar o arquivo</p>
       <small>PDF, AI, EPS, PNG, JPG, SVG, CDR, ZIP — máx. 4 MB</small>
-    </div>
+    </label>
 
-    <div class="file-info" id="file-info">
-      <span>✅</span>
-      <span id="file-info-name"></span>
-    </div>
-
+    <div class="file-info" id="file-info"><span>✅</span><span id="file-info-name"></span></div>
     <div class="error-box" id="error-box"></div>
 
+    <div class="progress" id="progress">
+      <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+      <p class="progress-text" id="progress-text">Enviando...</p>
+    </div>
+
     <button class="btn" id="sendBtn" disabled onclick="sendFile()">
-      Confirmar e enviar para o HubSpot
+      Confirmar e salvar bordado
     </button>
   </div>
 
   <div class="success-card" id="success-card">
     <div class="big-icon">✅</div>
-    <h2>Arquivo enviado com sucesso!</h2>
-    <p>O bordado foi registrado no negócio.<br>Você pode fechar esta janela.</p>
+    <h2>Bordado salvo com sucesso!</h2>
+    <p>O arquivo foi enviado e o bordado foi registrado no negócio.</p>
+    <p style="margin-top:8px;font-size:12px;color:#99acc2;">Atualize o card de Bordados no HubSpot para ver.</p>
+    <button class="close-btn" onclick="window.close()">Fechar janela</button>
   </div>
 
   <script>
     const MAX_MB = 4;
-    const params = new URLSearchParams(window.location.search);
-    const expectedName = params.get('name') || 'arquivo-bordado';
+    const p = new URLSearchParams(window.location.search);
+    const token        = p.get('token')        || '';
+    const dealId       = p.get('dealId')       || '';
+    const productId    = p.get('productId')    || '';
+    const productName  = p.get('productName')  || '';
+    const sku          = p.get('sku')          || '';
+    const position     = p.get('position')     || '';
+    const positionLabel= p.get('positionLabel')|| '';
+    const companyName  = p.get('companyName')  || '';
+    const generatedName= p.get('name')         || `${sku}-${positionLabel}-${companyName}`;
+    const bordadoId    = p.get('bordadoId')    || '';
 
-    document.getElementById('filename-display').textContent = expectedName;
+    document.getElementById('filename-display').textContent = generatedName || '—';
 
-    let fileData = null;
-    let fileName = null;
-    let fileType = null;
+    let fileBlob = null, fileName = null, fileType = null;
 
-    document.getElementById('fileInput').addEventListener('change', function (e) {
-      handleFile(e.target.files[0]);
-    });
-
-    function handleFile(file) {
+    document.getElementById('fileInput').addEventListener('change', function(e) {
+      const file = e.target.files[0];
       const errorEl  = document.getElementById('error-box');
       const infoEl   = document.getElementById('file-info');
       const infoName = document.getElementById('file-info-name');
@@ -181,56 +100,121 @@
       errorEl.style.display = 'none';
       infoEl.style.display  = 'none';
       btn.disabled = true;
-      fileData = null;
+      fileBlob = null;
 
       if (!file) return;
-
       if (file.size > MAX_MB * 1024 * 1024) {
-        errorEl.textContent = `Arquivo muito grande: ${(file.size / 1024 / 1024).toFixed(1)} MB. Máximo permitido: ${MAX_MB} MB.`;
+        errorEl.textContent = `Arquivo muito grande: ${(file.size/1024/1024).toFixed(1)} MB. Máximo: ${MAX_MB} MB.`;
         errorEl.style.display = 'block';
         return;
       }
 
-      const reader = new FileReader();
-      reader.onload = function (ev) {
-        const dataUrl = ev.target.result;
-        fileData = dataUrl.split(',')[1];
-        fileName = file.name;
-        fileType = file.type || 'application/octet-stream';
+      fileBlob = file;
+      fileName = file.name;
+      fileType = file.type || 'application/octet-stream';
+      infoName.textContent = `${file.name} (${(file.size/1024).toFixed(0)} KB)`;
+      infoEl.style.display = 'flex';
+      btn.disabled = false;
+    });
 
-        infoName.textContent = `${file.name} (${(file.size / 1024).toFixed(0)} KB)`;
-        infoEl.style.display  = 'flex';
-        btn.disabled = false;
-      };
-      reader.readAsDataURL(file);
+    function setProgress(pct, text) {
+      document.getElementById('progress').style.display = 'block';
+      document.getElementById('progress-fill').style.width = pct + '%';
+      document.getElementById('progress-text').textContent = text;
     }
 
-    function sendFile() {
-      if (!fileData) return;
+    function showError(msg) {
+      const el = document.getElementById('error-box');
+      el.textContent = msg;
+      el.style.display = 'block';
+      document.getElementById('progress').style.display = 'none';
+      document.getElementById('sendBtn').disabled = false;
+    }
 
-      const message = {
-        type:         'bordado_file_selected',
-        fileData:     fileData,
-        fileName:     fileName,
-        fileType:     fileType,
-        expectedName: expectedName,
-      };
+    async function sendFile() {
+      if (!fileBlob || !token || !dealId) {
+        showError('Dados incompletos. Feche e tente novamente.');
+        return;
+      }
 
-      // Tenta todas as formas possíveis de alcançar o worker do HubSpot
-      const targets = [];
-      try { targets.push(window.parent); } catch(e) {}
-      try { targets.push(window.top); } catch(e) {}
-      try { if (window.opener) targets.push(window.opener); } catch(e) {}
+      document.getElementById('sendBtn').disabled = true;
+      document.getElementById('error-box').style.display = 'none';
 
-      targets.forEach(t => {
-        try { t.postMessage(message, '*'); } catch(e) {}
-        try { t.postMessage(JSON.stringify(message), '*'); } catch(e) {}
-      });
+      try {
+        // 1. Upload para HubSpot Files
+        setProgress(20, 'Enviando arquivo...');
+        const ext = fileName.includes('.') ? fileName.split('.').pop() : 'bin';
+        const cleanName = generatedName.replace(/[/\\:*?"<>|]/g, '-').replace(/\s+/g, '_');
+        const finalFileName = `${cleanName}.${ext}`;
 
-      document.getElementById('upload-card').style.display  = 'none';
-      document.getElementById('success-card').style.display = 'block';
+        const form = new FormData();
+        form.append('file', fileBlob, finalFileName);
+        form.append('options', JSON.stringify({ access: 'PUBLIC_INDEXABLE', overwriteExisting: false }));
+        form.append('folderPath', '/bordados-citerol');
+        form.append('fileName', finalFileName);
+
+        const uploadRes = await fetch('https://api.hubapi.com/files/v3/files', {
+          method: 'POST',
+          headers: { Authorization: `Bearer ${token}` },
+          body: form,
+        });
+
+        if (!uploadRes.ok) {
+          const txt = await uploadRes.text();
+          throw new Error(`Erro no upload: ${uploadRes.status} — ${txt}`);
+        }
+
+        const uploaded = await uploadRes.json();
+        const fileUrl = uploaded.url;
+        setProgress(60, 'Salvando bordado...');
+
+        // 2. Busca bordados existentes
+        const dealRes = await fetch(
+          `https://api.hubapi.com/crm/v3/objects/deals/${dealId}?properties=bordados_json`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        if (!dealRes.ok) throw new Error('Erro ao buscar negócio.');
+        const deal = await dealRes.json();
+
+        let bordados = [];
+        try {
+          const raw = deal.properties?.bordados_json;
+          if (raw) { const parsed = JSON.parse(raw); if (Array.isArray(parsed)) bordados = parsed; }
+        } catch(e) {}
+
+        const now = new Date().toISOString();
+
+        if (bordadoId) {
+          const idx = bordados.findIndex(b => b.id === bordadoId);
+          if (idx >= 0) {
+            bordados[idx] = { ...bordados[idx], productId, productName, sku, position, positionLabel, fileName: finalFileName, fileUrl, updatedAt: now };
+          }
+        } else {
+          bordados.push({
+            id: `b_${Date.now()}_${Math.random().toString(36).substr(2,6)}`,
+            productId, productName, sku, position, positionLabel,
+            fileName: finalFileName, fileUrl, createdAt: now,
+          });
+        }
+
+        // 3. Salva no deal
+        setProgress(85, 'Finalizando...');
+        const patchRes = await fetch(`https://api.hubapi.com/crm/v3/objects/deals/${dealId}`, {
+          method: 'PATCH',
+          headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ properties: { bordados_json: JSON.stringify(bordados), arquivo_do_negocio: fileUrl } }),
+        });
+
+        if (!patchRes.ok) throw new Error('Erro ao salvar no negócio.');
+
+        setProgress(100, 'Concluído!');
+        document.getElementById('upload-card').style.display = 'none';
+        document.getElementById('success-card').style.display = 'block';
+
+      } catch(err) {
+        showError(err.message || 'Erro inesperado. Tente novamente.');
+      }
     }
   </script>
-
 </body>
 </html>
