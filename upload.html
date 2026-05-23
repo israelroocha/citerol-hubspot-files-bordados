@@ -134,7 +134,7 @@
         // 1. Upload para HubSpot Files API
         setProgress(20, 'Enviando arquivo...');
         const ext = fileName.includes('.') ? fileName.split('.').pop() : 'bin';
-        const cleanName = generatedName.replace(/[/\\:*?"<>|]/g, '-').replace(/\s+/g, '_');
+        const cleanName = generatedName.replace(/[/\\:*?"<>|]/g, '').trim();
         const finalFileName = `${cleanName}.${ext}`;
 
         const form = new FormData();
