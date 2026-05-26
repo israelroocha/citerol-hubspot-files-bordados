@@ -207,6 +207,7 @@
     const companyName   = q.get('companyName')   || '';
     const generatedName = q.get('name')          || [sku, positionLabel, companyName].filter(Boolean).join(' - ');
     const bordadoId     = q.get('bordadoId')     || '';
+    const expectedCount = q.get('expectedCount') || '0';
 
     document.getElementById('filenameDisplay').textContent = generatedName || '—';
 
@@ -284,6 +285,7 @@
         form.append('positionLabel', positionLabel);
         form.append('companyName',   companyName);
         form.append('generatedName', generatedName);
+        form.append('expectedCount', expectedCount);
         if (bordadoId) form.append('bordadoId', bordadoId);
 
         setProgress(50, 'Enviando para o HubSpot...');
