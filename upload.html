@@ -198,16 +198,18 @@
     const MAX_MB = 4;
 
     const q             = new URLSearchParams(window.location.search);
-    const dealId        = q.get('dealId')        || '';
-    const productId     = q.get('productId')     || '';
-    const productName   = q.get('productName')   || '';
-    const sku           = q.get('sku')           || '';
-    const position      = q.get('position')      || '';
-    const positionLabel = q.get('positionLabel') || '';
-    const companyName   = q.get('companyName')   || '';
-    const generatedName = q.get('name')          || [sku, positionLabel, companyName].filter(Boolean).join(' - ');
-    const bordadoId     = q.get('bordadoId')     || '';
-    const expectedCount = q.get('expectedCount') || '0';
+    const dealId        = q.get('dealId')          || '';
+    const productId     = q.get('productId')       || '';
+    const productName   = q.get('productName')     || '';
+    const sku           = q.get('sku')             || '';
+    const position      = q.get('position')        || '';
+    const positionLabel = q.get('positionLabel')   || '';
+    const companyName   = q.get('companyName')     || '';
+    const generatedName = q.get('name')            || [sku, positionLabel, companyName].filter(Boolean).join(' - ');
+    const bordadoId     = q.get('bordadoId')       || '';
+    const expectedCount = q.get('expectedCount')   || '0';
+    const jsonProperty  = q.get('jsonProperty')    || 'bordados_json';
+    const arquivoProperty = q.get('arquivoProperty') || 'arquivo_do_negocio';
 
     document.getElementById('filenameDisplay').textContent = generatedName || '—';
 
@@ -275,17 +277,19 @@
         const finalFileName = `${cleanName}.${ext}`;
 
         const form = new FormData();
-        form.append('file',          fileBlob, finalFileName);
-        form.append('finalFileName', finalFileName);
-        form.append('dealId',        dealId);
-        form.append('productId',     productId);
-        form.append('productName',   productName);
-        form.append('sku',           sku);
-        form.append('position',      position);
-        form.append('positionLabel', positionLabel);
-        form.append('companyName',   companyName);
-        form.append('generatedName', generatedName);
-        form.append('expectedCount', expectedCount);
+        form.append('file',            fileBlob, finalFileName);
+        form.append('finalFileName',   finalFileName);
+        form.append('dealId',          dealId);
+        form.append('productId',       productId);
+        form.append('productName',     productName);
+        form.append('sku',             sku);
+        form.append('position',        position);
+        form.append('positionLabel',   positionLabel);
+        form.append('companyName',     companyName);
+        form.append('generatedName',   generatedName);
+        form.append('expectedCount',   expectedCount);
+        form.append('jsonProperty',    jsonProperty);
+        form.append('arquivoProperty', arquivoProperty);
         if (bordadoId) form.append('bordadoId', bordadoId);
 
         setProgress(50, 'Enviando para o HubSpot...');
